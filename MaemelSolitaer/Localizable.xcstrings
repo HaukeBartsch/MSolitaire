@@ -1,7 +1,2359 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-
+    "%@ · Chapter %lld · %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$@ · Kapitel %2$lld · %3$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · Chapter %2$lld · %3$@"
+          }
+        }
+      }
+    },
+    "%@ +%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ +%2$lld"
+          }
+        }
+      }
+    },
+    "%@ of %@" : {
+      "comment" : "Card name, e.g. 7 of Hearts. First: rank name, second: suit name",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%2$@ %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ of %2$@"
+          }
+        }
+      }
+    },
+    "%@, foundation pile" : {
+      "comment" : "VoiceOver label for the top card of a foundation pile",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%@, Zielstapel"
+          }
+        }
+      }
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "+%lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+%lld"
+          }
+        }
+      }
+    },
+    "+10 points for every card moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+10 Punkte für jede Karte, die auf einen Zielstapel gelegt wird."
+          }
+        }
+      }
+    },
+    "+10 points for every deck card played onto a column." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+10 Punkte für jede Karte vom Nachziehstapel, die auf eine Spalte gelegt wird."
+          }
+        }
+      }
+    },
+    "+10 points for every face-down card you turn over." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+10 Punkte für jede verdeckte Karte, die Sie aufdecken."
+          }
+        }
+      }
+    },
+    "+25 points when a King moves into an empty column." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+25 Punkte, wenn ein König in eine leere Spalte gelegt wird."
+          }
+        }
+      }
+    },
+    "+40 points every time you empty a column." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+40 Punkte jedes Mal, wenn Sie eine Spalte leeren."
+          }
+        }
+      }
+    },
+    "+100 points for each suit you complete from Ace to King." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+100 Punkte für jede Farbe, die Sie vom Ass bis zum König vervollständigen."
+          }
+        }
+      }
+    },
+    "+200 points when you clear the whole board." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "+200 Punkte, wenn Sie das ganze Spielfeld abräumen."
+          }
+        }
+      }
+    },
+    "−%lld points" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "−%lld Punkte"
+          }
+        }
+      }
+    },
+    "1 card at a time (relaxed)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "1 Karte auf einmal (entspannt)"
+          }
+        }
+      }
+    },
+    "3 cards at a time (classic)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "3 Karten auf einmal (klassisch)"
+          }
+        }
+      }
+    },
+    "52 cards · 7 columns · 4 foundations" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "52 Karten · 7 Spalten · 4 Zielstapel"
+          }
+        }
+      }
+    },
+    "52 cards · 8 columns · 4 foundations" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "52 Karten · 8 Spalten · 4 Zielstapel"
+          }
+        }
+      }
+    },
+    "104 cards · 9 columns · 8 foundations" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "104 Karten · 9 Spalten · 8 Zielstapel"
+          }
+        }
+      }
+    },
+    "A" : {
+      "comment" : "Card corner letter for an Ace",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A"
+          }
+        }
+      }
+    },
+    "A relaxing journey through classic Klondike" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Eine entspannte Reise durch das klassische Klondike"
+          }
+        }
+      }
+    },
+    "Ace" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ass"
+          }
+        }
+      }
+    },
+    "Ace Parade" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Asse-Parade"
+          }
+        }
+      }
+    },
+    "Ace Starter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ass im Ärmel"
+          }
+        }
+      }
+    },
+    "Aces give +30 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Asse bringen +30 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "After each cleared round you choose one charm — or two if you cleared the whole board, so it pays to finish even after reaching the target. Charms give you bonus points for the rest of the journey. You have 9 charm slots — when they are full, remove one of your charms to make room, or keep the ones you have." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nach jeder geschafften Runde wählen Sie einen Glücksbringer – oder zwei, wenn Sie das ganze Spielfeld abgeräumt haben. Es lohnt sich also, weiterzuspielen, auch wenn das Ziel schon erreicht ist. Glücksbringer bringen Ihnen für den Rest der Reise Bonuspunkte. Sie haben 9 Plätze für Glücksbringer – wenn alle belegt sind, entfernen Sie einen Ihrer Glücksbringer, um Platz zu schaffen, oder behalten Sie Ihre bisherigen."
+          }
+        }
+      }
+    },
+    "All 9 charm slots are full. Tap one of your charms and remove it to make room." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Alle 9 Plätze für Glücksbringer sind belegt. Tippen Sie auf einen Ihrer Glücksbringer und entfernen Sie ihn, um Platz zu schaffen."
+          }
+        }
+      }
+    },
+    "Auto-Finish" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Automatisch beenden"
+          }
+        }
+      }
+    },
+    "Back" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zurück"
+          }
+        }
+      }
+    },
+    "Back to the Game" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zurück zum Spiel"
+          }
+        }
+      }
+    },
+    "Begin every round with 50 points." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sie beginnen jede Runde mit 50 Punkten."
+          }
+        }
+      }
+    },
+    "Best %@ journey: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Beste Reise (%1$@): %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Best %1$@ journey: %2$@"
+          }
+        }
+      }
+    },
+    "Board cleared" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spielfeld abgeräumt"
+          }
+        }
+      }
+    },
+    "Board cleared — you may choose 2 charms!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spielfeld abgeräumt – Sie dürfen 2 Glücksbringer wählen!"
+          }
+        }
+      }
+    },
+    "Board cleared! This is charm 1 of 2." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spielfeld abgeräumt! Dies ist Glücksbringer 1 von 2."
+          }
+        }
+      }
+    },
+    "Bonus for clearing the board: charm 2 of 2." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bonus für das abgeräumte Spielfeld: Glücksbringer 2 von 2."
+          }
+        }
+      }
+    },
+    "Boss" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Boss"
+          }
+        }
+      }
+    },
+    "Boss Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bossrunde"
+          }
+        }
+      }
+    },
+    "Boss Rule" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bossregel"
+          }
+        }
+      }
+    },
+    "Bright Eyes" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Adlerauge"
+          }
+        }
+      }
+    },
+    "Build the columns downward with alternating colors — for example a red 6 on a black 7. Only a King can go into an empty column." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Legen Sie die Karten in den Spalten absteigend und abwechselnd in Rot und Schwarz an – zum Beispiel eine rote 6 auf eine schwarze 7. In eine leere Spalte darf nur ein König gelegt werden."
+          }
+        }
+      }
+    },
+    "Buttons on the left side" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tasten auf der linken Seite"
+          }
+        }
+      }
+    },
+    "Calm Table" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gemütliche Runde"
+          }
+        }
+      }
+    },
+    "Card to the foundation: 10. Turning over a card: 5. Deck card onto a column: 5. Clearing the board: 250. Undo costs 5." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karte auf einen Zielstapel: 10. Karte aufdecken: 5. Karte vom Nachziehstapel auf eine Spalte: 5. Spielfeld abräumen: 250. „Zurück“ kostet 5."
+          }
+        }
+      }
+    },
+    "Cards to the foundation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten auf Zielstapeln"
+          }
+        }
+      }
+    },
+    "Cards to Turn Over" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Aufzudeckende Karten"
+          }
+        }
+      }
+    },
+    "Cards turned over" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Aufgedeckte Karten"
+          }
+        }
+      }
+    },
+    "Careful Steps" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vorsichtige Schritte"
+          }
+        }
+      }
+    },
+    "Chapter %lld · %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kapitel %1$lld · %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Chapter %1$lld · %2$@"
+          }
+        }
+      }
+    },
+    "Chapter Complete!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kapitel geschafft!"
+          }
+        }
+      }
+    },
+    "Chapters and Rounds" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kapitel und Runden"
+          }
+        }
+      }
+    },
+    "Charm bonuses" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer-Boni"
+          }
+        }
+      }
+    },
+    "Charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer"
+          }
+        }
+      }
+    },
+    "Charms %lld/%lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer %1$lld/%2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charms %1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Choose 2 Charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "2 Glücksbringer wählen"
+          }
+        }
+      }
+    },
+    "Choose a Charm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer wählen"
+          }
+        }
+      }
+    },
+    "Choose Your Challenge" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Wählen Sie Ihren Schwierigkeitsgrad"
+          }
+        }
+      }
+    },
+    "Clear the board to get 2 charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spielfeld abräumen für 2 Glücksbringer"
+          }
+        }
+      }
+    },
+    "Clear the Way" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Freie Bahn"
+          }
+        }
+      }
+    },
+    "Clear the whole board to choose 2 charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Räumen Sie das ganze Spielfeld ab, um 2 Glücksbringer zu wählen"
+          }
+        }
+      }
+    },
+    "Clear the whole board within %lld moves for a 150 point bonus." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Räumen Sie das ganze Spielfeld in höchstens %lld Zügen ab, um 150 Bonuspunkte zu erhalten."
+          }
+        }
+      }
+    },
+    "Clubs" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kreuz"
+          }
+        }
+      }
+    },
+    "Clubs Bloom" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kreuz blüht auf"
+          }
+        }
+      }
+    },
+    "Clubs give +15 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kreuzkarten bringen +15 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Clubs give double points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kreuzkarten bringen doppelte Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Comfort" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Komfort"
+          }
+        }
+      }
+    },
+    "Continue Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reise fortsetzen"
+          }
+        }
+      }
+    },
+    "Dark Slate" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Schiefergrau"
+          }
+        }
+      }
+    },
+    "Deal New Cards" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neu austeilen"
+          }
+        }
+      }
+    },
+    "Deal new cards?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten neu austeilen?"
+          }
+        }
+      }
+    },
+    "Deal the Cards" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten austeilen"
+          }
+        }
+      }
+    },
+    "Deck" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nachziehstapel"
+          }
+        }
+      }
+    },
+    "Deck cards played" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten vom Nachziehstapel"
+          }
+        }
+      }
+    },
+    "Deck Helper" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Stapelhelfer"
+          }
+        }
+      }
+    },
+    "Deck, %lld cards left" : {
+      "comment" : "VoiceOver label for the face-down deck",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Nachziehstapel, noch %lld Karte"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Nachziehstapel, noch %lld Karten"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Nachziehstapel, keine Karten mehr"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Deck, %lld card left"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Deck, %lld cards left"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Deck, no cards left"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Diamond Dust" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Diamantstaub"
+          }
+        }
+      }
+    },
+    "Diamonds" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karo"
+          }
+        }
+      }
+    },
+    "Diamonds give +15 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karokarten bringen +15 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Diamonds give double points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karokarten bringen doppelte Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Diamonds Sparkle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karo funkelt"
+          }
+        }
+      }
+    },
+    "Difficulty" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Schwierigkeitsgrad"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fertig"
+          }
+        }
+      }
+    },
+    "Each chapter has three rounds: Warm-Up, Main and Boss. Reach the target score to clear a round. There is no timer — take all the time you like." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jedes Kapitel besteht aus drei Runden: Aufwärmrunde, Hauptrunde und Bossrunde. Erreichen Sie die Zielpunktzahl, um eine Runde zu schaffen. Es gibt keine Zeitbegrenzung – lassen Sie sich so viel Zeit, wie Sie möchten."
+          }
+        }
+      }
+    },
+    "Each Hint costs 10 points this round." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jeder „Tipp“ kostet in dieser Runde 10 Punkte."
+          }
+        }
+      }
+    },
+    "Each Undo costs 15 points this round." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jedes „Zurück“ kostet in dieser Runde 15 Punkte."
+          }
+        }
+      }
+    },
+    "Earn 50 extra points each time you empty a column." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sie erhalten 50 Extrapunkte jedes Mal, wenn Sie eine Spalte leeren."
+          }
+        }
+      }
+    },
+    "Easy" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leicht"
+          }
+        }
+      }
+    },
+    "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles. Every deal is checked in advance so it can always be won." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„Leicht“ ist das klassische Spiel. „Mittel“ fügt eine achte Spalte hinzu. „Schwer“ wird mit zwei Kartenspielen, neun Spalten und acht Zielstapeln gespielt. Jede Kartenverteilung wird vorab geprüft, damit sie sich immer lösen lässt."
+          }
+        }
+      }
+    },
+    "Empty" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leer"
+          }
+        }
+      }
+    },
+    "Empty %@ foundation pile" : {
+      "comment" : "VoiceOver label, e.g. Empty Hearts foundation pile",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leerer Zielstapel %@"
+          }
+        }
+      }
+    },
+    "Empty charm slot" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Freier Platz für Glücksbringer"
+          }
+        }
+      }
+    },
+    "Empty column, only a King can go here" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leere Spalte, hier darf nur ein König hingelegt werden"
+          }
+        }
+      }
+    },
+    "Empty deck" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leerer Nachziehstapel"
+          }
+        }
+      }
+    },
+    "Empty deck, tap to turn the cards over again" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Leerer Nachziehstapel, tippen Sie, um die Karten wieder umzudrehen"
+          }
+        }
+      }
+    },
+    "End Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Runde beenden"
+          }
+        }
+      }
+    },
+    "Every Ace moved to the foundation gives 40 extra points." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jedes Ass, das auf einen Zielstapel gelegt wird, bringt 40 Extrapunkte."
+          }
+        }
+      }
+    },
+    "Every deal is different — your charms are kept. Try a fresh deal!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jede Kartenverteilung ist anders – Ihre Glücksbringer bleiben erhalten. Versuchen Sie es mit neu ausgeteilten Karten!"
+          }
+        }
+      }
+    },
+    "Every face-down card you turn over gives 15 extra points." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Jede verdeckte Karte, die Sie aufdecken, bringt 15 Extrapunkte."
+          }
+        }
+      }
+    },
+    "Finish Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Runde abschließen"
+          }
+        }
+      }
+    },
+    "Forest Green" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Waldgrün"
+          }
+        }
+      }
+    },
+    "Foundation Friend" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zielstapel-Freund"
+          }
+        }
+      }
+    },
+    "Free" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kostenlos"
+          }
+        }
+      }
+    },
+    "Get 1 charm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "1 Glücksbringer erhalten"
+          }
+        }
+      }
+    },
+    "Grand Finale" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Großes Finale"
+          }
+        }
+      }
+    },
+    "Hard" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Schwer"
+          }
+        }
+      }
+    },
+    "Head Start" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vorsprung"
+          }
+        }
+      }
+    },
+    "Heart of Gold" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Herz aus Gold"
+          }
+        }
+      }
+    },
+    "Hearts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Herz"
+          }
+        }
+      }
+    },
+    "Hearts give +15 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Herzkarten bringen +15 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Hearts give double points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Herzkarten bringen doppelte Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Hearts Shine" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Herz strahlt"
+          }
+        }
+      }
+    },
+    "Helpers" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hilfen"
+          }
+        }
+      }
+    },
+    "Hint" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tipp"
+          }
+        }
+      }
+    },
+    "Hints are always free." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tipps sind immer kostenlos."
+          }
+        }
+      }
+    },
+    "How to Play" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spielanleitung"
+          }
+        }
+      }
+    },
+    "J" : {
+      "comment" : "Card corner letter for a Jack",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "B"
+          }
+        }
+      }
+    },
+    "Jack" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bube"
+          }
+        }
+      }
+    },
+    "Journey Complete!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reise geschafft!"
+          }
+        }
+      }
+    },
+    "Journey total" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reise gesamt"
+          }
+        }
+      }
+    },
+    "K" : {
+      "comment" : "Card corner letter for a King",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "K"
+          }
+        }
+      }
+    },
+    "Keep My Charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer behalten"
+          }
+        }
+      }
+    },
+    "Keep My Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reise behalten"
+          }
+        }
+      }
+    },
+    "Keep Playing" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Weiterspielen"
+          }
+        }
+      }
+    },
+    "King" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "König"
+          }
+        }
+      }
+    },
+    "Kingdom Builder" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Königsmacher"
+          }
+        }
+      }
+    },
+    "Kings give +50 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Könige bringen +50 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Lucky Clover" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksklee"
+          }
+        }
+      }
+    },
+    "Maemel Solitaire" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Maemel Solitär"
+          }
+        }
+      }
+    },
+    "Main" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Haupt"
+          }
+        }
+      }
+    },
+    "Main Menu" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hauptmenü"
+          }
+        }
+      }
+    },
+    "Main Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hauptrunde"
+          }
+        }
+      }
+    },
+    "Making sure this game can be won." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Wir stellen sicher, dass dieses Spiel gewonnen werden kann."
+          }
+        }
+      }
+    },
+    "Medium" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mittel"
+          }
+        }
+      }
+    },
+    "Menu" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Menü"
+          }
+        }
+      }
+    },
+    "Move all cards to the four piles at the top, from Ace up to King. Each pile holds one suit." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Legen Sie alle Karten auf die vier Zielstapel oben, vom Ass bis zum König. Jeder Stapel nimmt eine Farbe auf."
+          }
+        }
+      }
+    },
+    "Move the %@ into the empty column." : {
+      "comment" : "Hint. The card to move, e.g. King of Clubs",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Legen Sie %@ in die leere Spalte."
+          }
+        }
+      }
+    },
+    "Move the %@ onto the %@." : {
+      "comment" : "Hint. First: card to move, second: card it goes onto, e.g. 7 of Hearts / 8 of Spades",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Legen Sie %1$@ auf %2$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move the %1$@ onto the %2$@."
+          }
+        }
+      }
+    },
+    "Move the %@ up to its foundation pile." : {
+      "comment" : "Hint. The card to move, e.g. Ace of Hearts",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Legen Sie %@ auf den Zielstapel."
+          }
+        }
+      }
+    },
+    "Moves: %lld of %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Züge: %1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Moves: %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Moving Cards" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten bewegen"
+          }
+        }
+      }
+    },
+    "New Charms" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neue Glücksbringer"
+          }
+        }
+      }
+    },
+    "New Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neue Reise"
+          }
+        }
+      }
+    },
+    "No moves left" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Keine Züge mehr"
+          }
+        }
+      }
+    },
+    "No special rules. Just enjoy the game." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Keine besonderen Regeln. Genießen Sie einfach das Spiel."
+          }
+        }
+      }
+    },
+    "Not quite this time" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Diesmal knapp daneben"
+          }
+        }
+      }
+    },
+    "One deck and 8 columns. More cards start face down and the deck is smaller." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ein Kartenspiel und 8 Spalten. Zu Beginn liegen mehr Karten verdeckt, und der Nachziehstapel ist kleiner."
+          }
+        }
+      }
+    },
+    "Peek-a-Boo" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kuckuck!"
+          }
+        }
+      }
+    },
+    "Play all cards" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Alle Karten ablegen"
+          }
+        }
+      }
+    },
+    "Points" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Punkte"
+          }
+        }
+      }
+    },
+    "Put “%@” back" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„%@“ zurücklegen"
+          }
+        }
+      }
+    },
+    "Q" : {
+      "comment" : "Card corner letter for a Queen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "D"
+          }
+        }
+      }
+    },
+    "Queen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dame"
+          }
+        }
+      }
+    },
+    "Remove “%@”" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„%@“ entfernen"
+          }
+        }
+      }
+    },
+    "Remove %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%@ entfernen"
+          }
+        }
+      }
+    },
+    "Remove a charm to make room" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer entfernen, um Platz zu schaffen"
+          }
+        }
+      }
+    },
+    "Round %lld of 3, %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Runde %1$lld von 3, %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Round %1$lld of 3, %2$@"
+          }
+        }
+      }
+    },
+    "Round bonus" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Rundenbonus"
+          }
+        }
+      }
+    },
+    "Round Cleared!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Runde geschafft!"
+          }
+        }
+      }
+    },
+    "Round score" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Punkte in dieser Runde"
+          }
+        }
+      }
+    },
+    "Royal Court" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Königshof"
+          }
+        }
+      }
+    },
+    "Same classic rules at every level. Every deal can be won." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Auf jeder Stufe gelten dieselben klassischen Regeln. Jede Kartenverteilung kann gewonnen werden."
+          }
+        }
+      }
+    },
+    "Save and Go to Main Menu" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sichern und zum Hauptmenü"
+          }
+        }
+      }
+    },
+    "SCORE" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "PUNKTE"
+          }
+        }
+      }
+    },
+    "Score %lld of %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Punkte: %1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Score %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Score %lld of %lld, target reached" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Punkte: %1$lld von %2$lld, Ziel erreicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Score %1$lld of %2$lld, target reached"
+          }
+        }
+      }
+    },
+    "Second Chance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zweite Chance"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Einstellungen"
+          }
+        }
+      }
+    },
+    "Shows what this charm does and lets you remove it" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zeigt, was dieser Glücksbringer bewirkt, und ermöglicht es, ihn zu entfernen"
+          }
+        }
+      }
+    },
+    "Shuffling the cards…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Karten werden gemischt …"
+          }
+        }
+      }
+    },
+    "Skip This Charm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Glücksbringer überspringen"
+          }
+        }
+      }
+    },
+    "Sound effects" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Toneffekte"
+          }
+        }
+      }
+    },
+    "Spade Smith" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pik-Schmied"
+          }
+        }
+      }
+    },
+    "Spades" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pik"
+          }
+        }
+      }
+    },
+    "Spades give +15 points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pikkarten bringen +15 Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Spades give double points when moved to the foundation." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pikkarten bringen doppelte Punkte, wenn sie auf einen Zielstapel gelegt werden."
+          }
+        }
+      }
+    },
+    "Spades Shine" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pik glänzt"
+          }
+        }
+      }
+    },
+    "Start %@ Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reise starten (%@)"
+          }
+        }
+      }
+    },
+    "Start a new journey?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neue Reise starten?"
+          }
+        }
+      }
+    },
+    "Start New Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neue Reise starten"
+          }
+        }
+      }
+    },
+    "Suit Collector" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Farbensammler"
+          }
+        }
+      }
+    },
+    "Table Color" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tischfarbe"
+          }
+        }
+      }
+    },
+    "Take “%@”" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„%@“ wählen"
+          }
+        }
+      }
+    },
+    "Takes effect with the next deal." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gilt ab der nächsten Kartenverteilung."
+          }
+        }
+      }
+    },
+    "Tap" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tippen"
+          }
+        }
+      }
+    },
+    "Tap a card and it jumps to the best place. Or drag it — you don't need to be precise, it snaps into place." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tippen Sie auf eine Karte, und sie springt an den besten Platz. Oder ziehen Sie sie – Sie müssen dabei nicht genau sein, sie rastet von selbst ein."
+          }
+        }
+      }
+    },
+    "Tap a new charm to choose it" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Neuen Glücksbringer antippen"
+          }
+        }
+      }
+    },
+    "Tap the deck to turn over a new card." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tippen Sie auf den Nachziehstapel, um eine neue Karte aufzudecken."
+          }
+        }
+      }
+    },
+    "Tap the deck to turn over cards. When it is empty, tap it again to start over." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tippen Sie auf den Nachziehstapel, um Karten aufzudecken. Ist er leer, tippen Sie erneut darauf, um von vorn zu beginnen."
+          }
+        }
+      }
+    },
+    "Tap the empty deck to turn the cards over again." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tippen Sie auf den leeren Nachziehstapel, um die Karten wieder umzudrehen."
+          }
+        }
+      }
+    },
+    "Target" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ziel"
+          }
+        }
+      }
+    },
+    "TARGET" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "ZIEL"
+          }
+        }
+      }
+    },
+    "Target reached! Finish now for 1 charm — or clear the whole board to choose 2 charms." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ziel erreicht! Beenden Sie die Runde jetzt für 1 Glücksbringer – oder räumen Sie das ganze Spielfeld ab, um 2 Glücksbringer zu wählen."
+          }
+        }
+      }
+    },
+    "Target Score" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zielpunktzahl"
+          }
+        }
+      }
+    },
+    "The classic game: one deck and 7 columns." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Das klassische Spiel: ein Kartenspiel und 7 Spalten."
+          }
+        }
+      }
+    },
+    "The Columns" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Die Spalten"
+          }
+        }
+      }
+    },
+    "The Deck" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Der Nachziehstapel"
+          }
+        }
+      }
+    },
+    "The Goal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Das Ziel"
+          }
+        }
+      }
+    },
+    "Think It Through" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gut überlegt"
+          }
+        }
+      }
+    },
+    "This Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Diese Runde"
+          }
+        }
+      }
+    },
+    "This round starts over with a fresh deal, and the round score goes back to zero." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Diese Runde beginnt mit neu ausgeteilten Karten von vorn, und die Punkte der Runde werden auf null zurückgesetzt."
+          }
+        }
+      }
+    },
+    "Three at a Time" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Drei auf einmal"
+          }
+        }
+      }
+    },
+    "Tidy Play" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sauberes Spiel"
+          }
+        }
+      }
+    },
+    "Tidy Table" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Aufgeräumter Tisch"
+          }
+        }
+      }
+    },
+    "Total score: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gesamtpunkte: %@"
+          }
+        }
+      }
+    },
+    "Try Again with New Cards" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Noch einmal mit neuen Karten"
+          }
+        }
+      }
+    },
+    "Turn over 1 deck card at a time" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "1 Karte auf einmal vom Nachziehstapel aufdecken"
+          }
+        }
+      }
+    },
+    "Turn over 3 deck cards at a time" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "3 Karten auf einmal vom Nachziehstapel aufdecken"
+          }
+        }
+      }
+    },
+    "Turn over 3 deck cards at a time. Every card moved to the foundation gives 5 extra points." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vom Nachziehstapel werden 3 Karten auf einmal aufgedeckt. Jede Karte, die auf einen Zielstapel gelegt wird, bringt 5 Extrapunkte."
+          }
+        }
+      }
+    },
+    "Two decks, 9 columns and 8 foundation piles. A long game with higher targets and smaller cards." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zwei Kartenspiele, 9 Spalten und 8 Zielstapel. Ein langes Spiel mit höheren Zielen und kleineren Karten."
+          }
+        }
+      }
+    },
+    "Undo" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zurück"
+          }
+        }
+      }
+    },
+    "Undo and hint costs" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kosten für „Zurück“ und „Tipp“"
+          }
+        }
+      }
+    },
+    "Undo moves are always free." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„Zurück“ ist immer kostenlos."
+          }
+        }
+      }
+    },
+    "Undo takes back a move. Hint shows a good move in gold. Auto-Finish appears once all cards are face up and plays them for you." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„Zurück“ nimmt einen Zug zurück. „Tipp“ zeigt einen guten Zug in Gold. „Automatisch beenden“ erscheint, sobald alle Karten aufgedeckt sind, und legt sie für Sie ab."
+          }
+        }
+      }
+    },
+    "Warm Navy" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Warmes Marineblau"
+          }
+        }
+      }
+    },
+    "Warm-Up" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Aufwärmen"
+          }
+        }
+      }
+    },
+    "Warm-Up Round" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Aufwärmrunde"
+          }
+        }
+      }
+    },
+    "Wise Owl" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Weise Eule"
+          }
+        }
+      }
+    },
+    "You cleared all %lld chapters. Wonderful playing!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sie haben alle %lld Kapitel geschafft. Wunderbar gespielt!"
+          }
+        }
+      }
+    },
+    "You scored %@ points. The target was %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sie haben %1$@ Punkte erreicht. Das Ziel war %2$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You scored %1$@ points. The target was %2$@."
+          }
+        }
+      }
+    },
+    "Your charm helps you in every round for the rest of the journey." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ihr Glücksbringer hilft Ihnen für den Rest der Reise in jeder Runde."
+          }
+        }
+      }
+    },
+    "Your Charms  %lld of %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ihre Glücksbringer  %1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your Charms  %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Your current journey and charms will be replaced." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ihre aktuelle Reise und Ihre Glücksbringer werden ersetzt."
+          }
+        }
+      }
+    }
   },
-  "version" : "1.0"
+  "version" : "1.3"
 }

@@ -8,23 +8,111 @@
 
 import Foundation
 
+/// How big and challenging the table is. The rules are always standard Klondike;
+/// harder levels simply add more card stacks.
+nonisolated enum Difficulty: String, Codable, CaseIterable, Identifiable, CodingKeyRepresentable, Sendable {
+    case easy, medium, hard
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .easy: String(localized: "Easy")
+        case .medium: String(localized: "Medium")
+        case .hard: String(localized: "Hard")
+        }
+    }
+
+    var detail: String {
+        switch self {
+        case .easy: String(localized: "The classic game: one deck and 7 columns.")
+        case .medium: String(localized: "One deck and 8 columns. More cards start face down and the deck is smaller.")
+        case .hard: String(localized: "Two decks, 9 columns and 8 foundation piles. A long game with higher targets and smaller cards.")
+        }
+    }
+
+    var tableSummary: String {
+        switch self {
+        case .easy: String(localized: "52 cards · 7 columns · 4 foundations")
+        case .medium: String(localized: "52 cards · 8 columns · 4 foundations")
+        case .hard: String(localized: "104 cards · 9 columns · 8 foundations")
+        }
+    }
+
+    var symbolName: String {
+        switch self {
+        case .easy: "leaf.fill"
+        case .medium: "flame.fill"
+        case .hard: "mountain.2.fill"
+        }
+    }
+
+    var deckCount: Int { self == .hard ? 2 : 1 }
+    var columnCount: Int {
+        switch self {
+        case .easy: 7
+        case .medium: 8
+        case .hard: 9
+        }
+    }
+    var foundationCount: Int { 4 * deckCount }
+
+    /// Targets scale with the number of points a table can give.
+    var targetMultiplier: Double {
+        switch self {
+        case .easy: 1.0
+        case .medium: 1.35
+        case .hard: 2.4
+        }
+    }
+
+    /// Wanted share of random-choice games that clear the board, per round of a chapter.
+    /// High = many sequences of choices win (forgiving). Low = only a few exact sequences win.
+    /// Bands are calibrated per table size (measured on random deals) and narrow with every round.
+    func winRateBand(for stage: StageKind) -> ClosedRange<Double> {
+        switch (self, stage) {
+        case (.easy, .small): 0.20...1.0
+        case (.easy, .big): 0.05...0.20
+        case (.easy, .boss): 0.0...0.05
+        case (.medium, .small): 0.03...1.0
+        case (.medium, .big): 0.005...0.03
+        case (.medium, .boss): 0.0...0.005
+        case (.hard, .small): 0.85...1.0
+        case (.hard, .big): 0.65...0.85
+        case (.hard, .boss): 0.0...0.65
+        }
+    }
+
+    /// Random games played to measure a deal (fewer on the big table, where games are long).
+    var measurePlayouts: Int { self == .hard ? 30 : 60 }
+
+    /// Search budget for proving a deal can be won.
+    var solverNodeLimit: Int {
+        switch self {
+        case .easy: 5_000
+        case .medium: 10_000
+        case .hard: 20_000
+        }
+    }
+}
+
 /// The three rounds of every chapter (inspired by small blind / big blind / boss).
 nonisolated enum StageKind: Int, Codable, CaseIterable, Sendable {
     case small, big, boss
 
     var title: String {
         switch self {
-        case .small: "Warm-Up Round"
-        case .big: "Main Round"
-        case .boss: "Boss Round"
+        case .small: String(localized: "Warm-Up Round")
+        case .big: String(localized: "Main Round")
+        case .boss: String(localized: "Boss Round")
         }
     }
 
     var shortTitle: String {
         switch self {
-        case .small: "Warm-Up"
-        case .big: "Main"
-        case .boss: "Boss"
+        case .small: String(localized: "Warm-Up")
+        case .big: String(localized: "Main")
+        case .boss: String(localized: "Boss")
         }
     }
 
@@ -62,35 +150,35 @@ nonisolated enum StageCondition: String, Codable, CaseIterable, Sendable {
 
     var title: String {
         switch self {
-        case .calmTable: "Calm Table"
-        case .doubleHearts: "Hearts Shine"
-        case .doubleDiamonds: "Diamonds Sparkle"
-        case .doubleSpades: "Spades Shine"
-        case .doubleClubs: "Clubs Bloom"
-        case .revealBonus: "Peek-a-Boo"
-        case .aceParade: "Ace Parade"
-        case .columnBonus: "Clear the Way"
-        case .moveBudget: "Tidy Play"
-        case .costlyUndo: "Careful Steps"
-        case .costlyHints: "Think It Through"
-        case .drawThree: "Three at a Time"
+        case .calmTable: String(localized: "Calm Table")
+        case .doubleHearts: String(localized: "Hearts Shine")
+        case .doubleDiamonds: String(localized: "Diamonds Sparkle")
+        case .doubleSpades: String(localized: "Spades Shine")
+        case .doubleClubs: String(localized: "Clubs Bloom")
+        case .revealBonus: String(localized: "Peek-a-Boo")
+        case .aceParade: String(localized: "Ace Parade")
+        case .columnBonus: String(localized: "Clear the Way")
+        case .moveBudget: String(localized: "Tidy Play")
+        case .costlyUndo: String(localized: "Careful Steps")
+        case .costlyHints: String(localized: "Think It Through")
+        case .drawThree: String(localized: "Three at a Time")
         }
     }
 
     var detail: String {
         switch self {
-        case .calmTable: "No special rules. Just enjoy the game."
-        case .doubleHearts: "Hearts give double points when moved to the foundation."
-        case .doubleDiamonds: "Diamonds give double points when moved to the foundation."
-        case .doubleSpades: "Spades give double points when moved to the foundation."
-        case .doubleClubs: "Clubs give double points when moved to the foundation."
-        case .revealBonus: "Every face-down card you turn over gives 15 extra points."
-        case .aceParade: "Every Ace moved to the foundation gives 40 extra points."
-        case .columnBonus: "Earn 50 extra points each time you empty a column."
-        case .moveBudget: "Clear the whole board within \(Self.moveBudgetLimit) moves for a 150 point bonus."
-        case .costlyUndo: "Each Undo costs 15 points this round."
-        case .costlyHints: "Each Hint costs 10 points this round."
-        case .drawThree: "Turn over 3 deck cards at a time. Every card moved to the foundation gives 5 extra points."
+        case .calmTable: String(localized: "No special rules. Just enjoy the game.")
+        case .doubleHearts: String(localized: "Hearts give double points when moved to the foundation.")
+        case .doubleDiamonds: String(localized: "Diamonds give double points when moved to the foundation.")
+        case .doubleSpades: String(localized: "Spades give double points when moved to the foundation.")
+        case .doubleClubs: String(localized: "Clubs give double points when moved to the foundation.")
+        case .revealBonus: String(localized: "Every face-down card you turn over gives 15 extra points.")
+        case .aceParade: String(localized: "Every Ace moved to the foundation gives 40 extra points.")
+        case .columnBonus: String(localized: "Earn 50 extra points each time you empty a column.")
+        case .moveBudget: String(localized: "Clear the whole board within \(Self.moveBudgetLimit) moves for a 150 point bonus.")
+        case .costlyUndo: String(localized: "Each Undo costs 15 points this round.")
+        case .costlyHints: String(localized: "Each Hint costs 10 points this round.")
+        case .drawThree: String(localized: "Turn over 3 deck cards at a time. Every card moved to the foundation gives 5 extra points.")
         }
     }
 
@@ -150,43 +238,43 @@ nonisolated enum Charm: String, Codable, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .royalCourt: "Royal Court"
-        case .foundationFriend: "Foundation Friend"
-        case .brightEyes: "Bright Eyes"
-        case .heartOfGold: "Heart of Gold"
-        case .spadeSmith: "Spade Smith"
-        case .diamondDust: "Diamond Dust"
-        case .luckyClover: "Lucky Clover"
-        case .aceStarter: "Ace Starter"
-        case .tidyTable: "Tidy Table"
-        case .freeUndo: "Second Chance"
-        case .wiseOwl: "Wise Owl"
-        case .headStart: "Head Start"
-        case .grandFinale: "Grand Finale"
-        case .deckHelper: "Deck Helper"
-        case .suitCollector: "Suit Collector"
-        case .kingdomBuilder: "Kingdom Builder"
+        case .royalCourt: String(localized: "Royal Court")
+        case .foundationFriend: String(localized: "Foundation Friend")
+        case .brightEyes: String(localized: "Bright Eyes")
+        case .heartOfGold: String(localized: "Heart of Gold")
+        case .spadeSmith: String(localized: "Spade Smith")
+        case .diamondDust: String(localized: "Diamond Dust")
+        case .luckyClover: String(localized: "Lucky Clover")
+        case .aceStarter: String(localized: "Ace Starter")
+        case .tidyTable: String(localized: "Tidy Table")
+        case .freeUndo: String(localized: "Second Chance")
+        case .wiseOwl: String(localized: "Wise Owl")
+        case .headStart: String(localized: "Head Start")
+        case .grandFinale: String(localized: "Grand Finale")
+        case .deckHelper: String(localized: "Deck Helper")
+        case .suitCollector: String(localized: "Suit Collector")
+        case .kingdomBuilder: String(localized: "Kingdom Builder")
         }
     }
 
     var detail: String {
         switch self {
-        case .royalCourt: "Kings give +50 points when moved to the foundation."
-        case .foundationFriend: "+10 points for every card moved to the foundation."
-        case .brightEyes: "+10 points for every face-down card you turn over."
-        case .heartOfGold: "Hearts give +15 points when moved to the foundation."
-        case .spadeSmith: "Spades give +15 points when moved to the foundation."
-        case .diamondDust: "Diamonds give +15 points when moved to the foundation."
-        case .luckyClover: "Clubs give +15 points when moved to the foundation."
-        case .aceStarter: "Aces give +30 points when moved to the foundation."
-        case .tidyTable: "+40 points every time you empty a column."
-        case .freeUndo: "Undo moves are always free."
-        case .wiseOwl: "Hints are always free."
-        case .headStart: "Begin every round with 50 points."
-        case .grandFinale: "+200 points when you clear the whole board."
-        case .deckHelper: "+10 points for every deck card played onto a column."
-        case .suitCollector: "+100 points for each suit you complete from Ace to King."
-        case .kingdomBuilder: "+25 points when a King moves into an empty column."
+        case .royalCourt: String(localized: "Kings give +50 points when moved to the foundation.")
+        case .foundationFriend: String(localized: "+10 points for every card moved to the foundation.")
+        case .brightEyes: String(localized: "+10 points for every face-down card you turn over.")
+        case .heartOfGold: String(localized: "Hearts give +15 points when moved to the foundation.")
+        case .spadeSmith: String(localized: "Spades give +15 points when moved to the foundation.")
+        case .diamondDust: String(localized: "Diamonds give +15 points when moved to the foundation.")
+        case .luckyClover: String(localized: "Clubs give +15 points when moved to the foundation.")
+        case .aceStarter: String(localized: "Aces give +30 points when moved to the foundation.")
+        case .tidyTable: String(localized: "+40 points every time you empty a column.")
+        case .freeUndo: String(localized: "Undo moves are always free.")
+        case .wiseOwl: String(localized: "Hints are always free.")
+        case .headStart: String(localized: "Begin every round with 50 points.")
+        case .grandFinale: String(localized: "+200 points when you clear the whole board.")
+        case .deckHelper: String(localized: "+10 points for every deck card played onto a column.")
+        case .suitCollector: String(localized: "+100 points for each suit you complete from Ace to King.")
+        case .kingdomBuilder: String(localized: "+25 points when a King moves into an empty column.")
         }
     }
 
@@ -227,13 +315,13 @@ nonisolated enum ScoreCategory: String, Codable, CaseIterable, CodingKeyRepresen
 
     var title: String {
         switch self {
-        case .foundation: "Cards to the foundation"
-        case .reveals: "Cards turned over"
-        case .deck: "Deck cards played"
-        case .charms: "Charm bonuses"
-        case .roundBonus: "Round bonus"
-        case .boardClear: "Board cleared"
-        case .penalties: "Undo and hint costs"
+        case .foundation: String(localized: "Cards to the foundation")
+        case .reveals: String(localized: "Cards turned over")
+        case .deck: String(localized: "Deck cards played")
+        case .charms: String(localized: "Charm bonuses")
+        case .roundBonus: String(localized: "Round bonus")
+        case .boardClear: String(localized: "Board cleared")
+        case .penalties: String(localized: "Undo and hint costs")
         }
     }
 
@@ -250,7 +338,39 @@ nonisolated enum ScoreCategory: String, Codable, CaseIterable, CodingKeyRepresen
     }
 }
 
+/// Points one charm added to a move, shown next to the card and flashed in the charm panel.
+nonisolated struct CharmBonus: Equatable, Sendable {
+    let charm: Charm
+    let amount: Int
+}
+
 nonisolated enum Scoring {
+    /// What each charm added for a move. Mirrors the charm part of `points(for:charms:condition:)`.
+    static func charmBonuses(for events: MoveEvents, charms: [Charm]) -> [CharmBonus] {
+        var amounts: [Charm: Int] = [:]
+        func add(_ charm: Charm, _ value: Int) {
+            if value != 0, charms.contains(charm) { amounts[charm, default: 0] += value }
+        }
+        for card in events.newFoundationCards {
+            add(.foundationFriend, 10)
+            if card.rank == 1 { add(.aceStarter, 30) }
+            if card.rank == 13 { add(.royalCourt, 50) }
+            add(Charm.suitCharm(for: card.suit), 15)
+        }
+        add(.suitCollector, 100 * events.completedSuits)
+        add(.brightEyes, 10 * events.revealedCards)
+        add(.deckHelper, 10 * events.wasteToTableau)
+        add(.tidyTable, 40 * events.newlyClearedColumns)
+        add(.kingdomBuilder, 25 * events.newKingsToEmptyColumn)
+        return Charm.allCases.compactMap { charm in
+            amounts[charm].map { CharmBonus(charm: charm, amount: $0) }
+        }
+    }
+
+    static func boardClearCharmBonuses(charms: [Charm]) -> [CharmBonus] {
+        charms.contains(.grandFinale) ? [CharmBonus(charm: .grandFinale, amount: 200)] : []
+    }
+
     static let foundationPoints = 10
     static let revealPoints = 5
     static let deckPoints = 5
@@ -258,9 +378,9 @@ nonisolated enum Scoring {
     static let headStartPoints = 50
 
     /// Target score for a round. Grows gently each chapter.
-    static func target(ante: Int, kind: StageKind) -> Int {
+    static func target(ante: Int, kind: StageKind, difficulty: Difficulty = .easy) -> Int {
         let base = 150.0 * pow(1.3, Double(max(ante, 1) - 1))
-        return Int((base * kind.targetMultiplier / 10).rounded()) * 10
+        return Int((base * kind.targetMultiplier * difficulty.targetMultiplier / 10).rounded()) * 10
     }
 
     static func undoCost(charms: [Charm], condition: StageCondition) -> Int {
@@ -323,7 +443,10 @@ nonisolated enum Scoring {
 /// The player's journey through the chapters.
 nonisolated struct RunState: Codable, Sendable {
     static let chapterCount = 8
+    /// Charm slots form a 3 × 3 grid; a full grid means swapping one out for a new one.
+    static let maxCharms = 9
 
+    var difficulty: Difficulty = .easy
     var ante = 1
     var stage: StageKind = .small
     var condition: StageCondition = .calmTable
@@ -332,8 +455,25 @@ nonisolated struct RunState: Codable, Sendable {
     var roundsCleared = 0
     var offeredCharms: [Charm] = []
     var hasCompletedJourney = false
+    // Optional so saves from before this feature still load.
+    private var storedCharmPicks: Int?
+    private var storedBoardCleared: Bool?
 
-    var target: Int { Scoring.target(ante: ante, kind: stage) }
+    /// Charm choices still to make after the round just cleared (2 when the whole board was cleared).
+    var charmPicksRemaining: Int {
+        get { storedCharmPicks ?? 1 }
+        set { storedCharmPicks = newValue }
+    }
+
+    /// Whether the round just cleared ended with every card on the foundations.
+    var boardWasCleared: Bool {
+        get { storedBoardCleared ?? false }
+        set { storedBoardCleared = newValue }
+    }
+
+    static let charmPicksForClearedBoard = 2
+
+    var target: Int { Scoring.target(ante: ante, kind: stage, difficulty: difficulty) }
 
     func makeCharmOffer() -> [Charm] {
         Array(Charm.allCases.filter { !charms.contains($0) }.shuffled().prefix(3))

@@ -15,14 +15,7 @@ struct CardView: View {
 
     var body: some View {
         let corner = size.width * 0.09
-        ZStack {
-            CardFace(card: card, size: size)
-                .opacity(card.isFaceUp ? 1 : 0)
-            CardBack(size: size)
-                .opacity(card.isFaceUp ? 0 : 1)
-        }
-        .frame(width: size.width, height: size.height)
-        .rotation3DEffect(.degrees(card.isFaceUp ? 0 : 180), axis: (x: 0, y: 1, z: 0), perspective: 0.35)
+        FlippingCard(card: card, size: size, angle: card.isFaceUp ? 0 : 180)
         .overlay {
             if isHighlighted {
                 RoundedRectangle(cornerRadius: corner, style: .continuous)
@@ -31,6 +24,35 @@ struct CardView: View {
             }
         }
         .shadow(color: .black.opacity(0.28), radius: 1.5, x: 0, y: 1)
+        // One element per card; callers provide the label. Hides the face of face-down cards.
+        .accessibilityElement(children: .ignore)
+    }
+}
+
+/// Flips a card by squeezing it horizontally and swapping sides halfway through.
+/// A flat effect (no 3D perspective) keeps the card's frame — and its VoiceOver outline — exact.
+private struct FlippingCard: View, Animatable {
+    let card: Card
+    let size: CGSize
+    /// 0 = face up, 180 = face down.
+    var angle: Double
+
+    var animatableData: Double {
+        get { angle }
+        set { angle = newValue }
+    }
+
+    var body: some View {
+        let showsFace = angle < 90
+        ZStack {
+            if showsFace {
+                CardFace(card: card, size: size)
+            } else {
+                CardBack(size: size)
+            }
+        }
+        .frame(width: size.width, height: size.height)
+        .scaleEffect(x: max(0.02, abs(cos(angle * .pi / 180))), y: 1)
     }
 }
 
@@ -121,9 +143,13 @@ struct CardBack: View {
                         endPoint: .bottomTrailing
                     ))
                     .overlay {
-                        DiamondPattern(spacing: max(8, w * 0.14))
-                            .stroke(Color.white.opacity(0.16), lineWidth: 1)
-                            .clipShape(inner)
+                        // Drawn in a Canvas so the overshooting lines never enlarge the card's frame.
+                        Canvas { context, canvasSize in
+                            let pattern = DiamondPattern(spacing: max(8, w * 0.14))
+                                .path(in: CGRect(origin: .zero, size: canvasSize))
+                            context.stroke(pattern, with: .color(.white.opacity(0.16)), lineWidth: 1)
+                        }
+                        .clipShape(inner)
                     }
                     .overlay(inner.strokeBorder(Theme.gold.opacity(0.55), lineWidth: max(1, w * 0.02)))
                     .padding(w * 0.06)

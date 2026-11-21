@@ -15,17 +15,17 @@ struct SettingsView: View {
         let settings = controller.settings
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
-                SettingsSection(title: "Cards to Turn Over", detail: "Takes effect with the next deal.") {
-                    OptionButton(title: "1 card at a time (relaxed)", isSelected: !settings.drawThree) {
+                SettingsSection(title: String(localized: "Cards to Turn Over"), detail: String(localized: "Takes effect with the next deal.")) {
+                    OptionButton(title: String(localized: "1 card at a time (relaxed)"), isSelected: !settings.drawThree) {
                         controller.updateSettings { $0.drawThree = false }
                     }
-                    OptionButton(title: "3 cards at a time (classic)", isSelected: settings.drawThree) {
+                    OptionButton(title: String(localized: "3 cards at a time (classic)"), isSelected: settings.drawThree) {
                         controller.updateSettings { $0.drawThree = true }
                     }
                 }
 
-                SettingsSection(title: "Table Color", detail: nil) {
-                    HStack(spacing: 14) {
+                SettingsSection(title: String(localized: "Table Color"), detail: nil) {
+                    HStack(alignment: .top, spacing: 14) {
                         ForEach(TableColor.allCases) { color in
                             Button {
                                 controller.updateSettings { $0.tableColor = color }
@@ -50,11 +50,11 @@ struct SettingsView: View {
                     }
                 }
 
-                SettingsSection(title: "Comfort", detail: nil) {
-                    LargeToggle(title: "Sound effects", isOn: settings.soundOn) { value in
+                SettingsSection(title: String(localized: "Comfort"), detail: nil) {
+                    LargeToggle(title: String(localized: "Sound effects"), isOn: settings.soundOn) { value in
                         controller.updateSettings { $0.soundOn = value }
                     }
-                    LargeToggle(title: "Buttons on the left side", isOn: settings.leftHanded) { value in
+                    LargeToggle(title: String(localized: "Buttons on the left side"), isOn: settings.leftHanded) { value in
                         controller.updateSettings { $0.leftHanded = value }
                     }
                 }
@@ -144,22 +144,24 @@ struct HowToPlayView: View {
     @Environment(\.dismiss) private var dismiss
 
     private let sections: [(String, String, String)] = [
-        ("flag.checkered", "The Goal",
-         "Move all cards to the four piles at the top, from Ace up to King. Each pile holds one suit."),
-        ("square.grid.3x1.below.line.grid.1x2", "The Columns",
-         "Build the columns downward with alternating colors — for example a red 6 on a black 7. Only a King can go into an empty column."),
-        ("rectangle.stack.fill", "The Deck",
-         "Tap the deck to turn over cards. When it is empty, tap it again to start over."),
-        ("hand.tap.fill", "Moving Cards",
-         "Tap a card and it jumps to the best place. Or drag it — you don't need to be precise, it snaps into place."),
-        ("crown.fill", "Chapters and Rounds",
-         "Each chapter has three rounds: Warm-Up, Main and Boss. Reach the target score to clear a round. There is no timer — take all the time you like."),
-        ("sparkles", "Charms",
-         "After each cleared round you choose one charm. Charms give you bonus points for the rest of the journey."),
-        ("lightbulb.fill", "Helpers",
-         "Undo takes back a move. Hint shows a good move in gold. Auto-Finish appears once all cards are face up and plays them for you."),
-        ("star.fill", "Points",
-         "Card to the foundation: 10. Turning over a card: 5. Deck card onto a column: 5. Clearing the board: 250. Undo costs 5."),
+        ("flag.checkered", String(localized: "The Goal"),
+         String(localized: "Move all cards to the four piles at the top, from Ace up to King. Each pile holds one suit.")),
+        ("rectangle.split.3x1.fill", String(localized: "The Columns"),
+         String(localized: "Build the columns downward with alternating colors — for example a red 6 on a black 7. Only a King can go into an empty column.")),
+        ("rectangle.stack.fill", String(localized: "The Deck"),
+         String(localized: "Tap the deck to turn over cards. When it is empty, tap it again to start over.")),
+        ("hand.tap.fill", String(localized: "Moving Cards"),
+         String(localized: "Tap a card and it jumps to the best place. Or drag it — you don't need to be precise, it snaps into place.")),
+        ("dial.medium.fill", String(localized: "Difficulty"),
+         String(localized: "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles. Every deal is checked in advance so it can always be won.")),
+        ("crown.fill", String(localized: "Chapters and Rounds"),
+         String(localized: "Each chapter has three rounds: Warm-Up, Main and Boss. Reach the target score to clear a round. There is no timer — take all the time you like.")),
+        ("sparkles", String(localized: "Charms"),
+         String(localized: "After each cleared round you choose one charm — or two if you cleared the whole board, so it pays to finish even after reaching the target. Charms give you bonus points for the rest of the journey. You have 9 charm slots — when they are full, remove one of your charms to make room, or keep the ones you have.")),
+        ("lightbulb.fill", String(localized: "Helpers"),
+         String(localized: "Undo takes back a move. Hint shows a good move in gold. Auto-Finish appears once all cards are face up and plays them for you.")),
+        ("star.fill", String(localized: "Points"),
+         String(localized: "Card to the foundation: 10. Turning over a card: 5. Deck card onto a column: 5. Clearing the board: 250. Undo costs 5.")),
     ]
 
     var body: some View {

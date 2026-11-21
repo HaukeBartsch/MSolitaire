@@ -30,6 +30,9 @@ struct ContentView: View {
         case .menu:
             MainMenuView()
                 .transition(.opacity)
+        case .chooseDifficulty:
+            DifficultyPickerView()
+                .transition(.opacity)
         case .stageIntro:
             StageIntroView()
                 .transition(.opacity)
@@ -50,6 +53,7 @@ struct ContentView: View {
             .transition(.opacity)
         case .charmPick:
             CharmPickerView()
+                .id(controller.run?.charmPicksRemaining ?? 0)
                 .transition(.opacity)
         case .journeyComplete:
             JourneyCompleteView()

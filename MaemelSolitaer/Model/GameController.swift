@@ -9,7 +9,7 @@ import SwiftUI
 import Observation
 
 nonisolated enum Screen: String, Codable, Sendable {
-    case menu, stageIntro, playing, stageComplete, charmPick, stageFailed, journeyComplete
+    case menu, chooseDifficulty, stageIntro, playing, stageComplete, charmPick, stageFailed, journeyComplete
 }
 
 nonisolated enum TableColor: String, Codable, CaseIterable, Identifiable, Sendable {
@@ -19,9 +19,9 @@ nonisolated enum TableColor: String, Codable, CaseIterable, Identifiable, Sendab
 
     var title: String {
         switch self {
-        case .forest: "Forest Green"
-        case .navy: "Warm Navy"
-        case .slate: "Dark Slate"
+        case .forest: String(localized: "Forest Green")
+        case .navy: String(localized: "Warm Navy")
+        case .slate: String(localized: "Dark Slate")
         }
     }
 }
@@ -39,7 +39,17 @@ private nonisolated struct SaveData: Codable {
     var stageScore: Int
     var breakdown: [ScoreCategory: Int]
     var resumeScreen: Screen
-    var bestScore: Int
+    var bestScores: [Difficulty: Int]
+}
+
+/// A "+15" that floats over the card that earned the points while the score counts up.
+struct ScorePop: Identifiable, Equatable {
+    let id: Int
+    let amount: Int
+    /// The card to show it on; nil shows it in the middle of the table (e.g. board-cleared bonus).
+    let cardID: Int?
+    /// What each charm added to this gain.
+    var bonuses: [CharmBonus] = []
 }
 
 private struct UndoSnapshot {
@@ -55,7 +65,7 @@ final class GameController {
     private(set) var game = KlondikeGame()
     private(set) var stageScore = 0
     private(set) var breakdown: [ScoreCategory: Int] = [:]
-    private(set) var bestScore = 0
+    private(set) var bestScores: [Difficulty: Int] = [:]
     private(set) var settings = GameSettings()
 
     private(set) var activeHint: GameHint?
@@ -63,12 +73,19 @@ final class GameController {
     private(set) var isStuck = false
     private(set) var isAutoCompleting = false
     private(set) var isRoundEnding = false
+    /// True while a winnable deal is being prepared.
+    private(set) var isDealing = false
     /// Incremented per card to drive a gentle "can't go there" shake.
     private(set) var shakes: [Int: Int] = [:]
     /// Cards that just moved; drawn on top so they glide over other cards.
     private(set) var recentlyMoved: Set<Int> = []
-    private(set) var lastGain = 0
-    private(set) var gainToken = 0
+    /// Point gains currently floating over the table.
+    private(set) var scorePops: [ScorePop] = []
+    @ObservationIgnored private var nextPopID = 0
+    /// Counts up whenever a charm adds points, so its icon in the charm panel can flash.
+    private(set) var charmFlashes: [Charm: Int] = [:]
+    /// The points each charm added most recently (shown beside the charm in the panel).
+    private(set) var charmFlashAmounts: [Charm: Int] = [:]
     private(set) var dealToken = 0
     /// Set when a fresh deal should be animated by the table view.
     var pendingDealAnimation = false
@@ -77,19 +94,24 @@ final class GameController {
     @ObservationIgnored private var resumeScreen: Screen = .stageIntro
     @ObservationIgnored private var messageTask: Task<Void, Never>?
     @ObservationIgnored private let sound = SoundManager()
+    @ObservationIgnored private var dealTask: Task<Void, Never>?
+    /// A winnable deal prepared in the background for the next round or retry.
+    @ObservationIgnored private var prefetchedDeal: (config: DealConfig, task: Task<KlondikeGame, Never>)?
 
-    private static let saveKey = "maemel.save.v1"
+    private static let saveKey = "maemel.save.v2"
     private static let settingsKey = "maemel.settings.v1"
     private static let moveAnimation = Animation.spring(duration: 0.35, bounce: 0.12)
 
     init() {
         loadSettings()
         loadProgress()
+        // Build the sounds in the background so the first card draw is instant.
+        sound.prepare()
     }
 
     // MARK: - Derived state
 
-    var canInteract: Bool { screen == .playing && !isAutoCompleting && !isRoundEnding }
+    var canInteract: Bool { screen == .playing && !isAutoCompleting && !isRoundEnding && !isDealing }
     var canUndo: Bool { canInteract && !undoStack.isEmpty }
     var canAutoComplete: Bool { canInteract && game.canAutoComplete }
     var target: Int { run?.target ?? 0 }
@@ -109,6 +131,12 @@ final class GameController {
         (run?.condition == .drawThree || settings.drawThree) ? 3 : 1
     }
 
+    var difficulty: Difficulty { run?.difficulty ?? .easy }
+
+    private var currentDealConfig: DealConfig {
+        DealConfig(difficulty: difficulty, drawCount: drawCountForStage, stage: run?.stage ?? .small)
+    }
+
     // MARK: - Settings
 
     func updateSettings(_ change: (inout GameSettings) -> Void) {
@@ -121,51 +149,103 @@ final class GameController {
 
     // MARK: - Journey flow
 
-    func startNewJourney() {
-        run = RunState()
+    func showDifficultyChoice() {
+        screen = .chooseDifficulty
+    }
+
+    func startNewJourney(difficulty: Difficulty) {
+        dealTask?.cancel()
+        isDealing = false
+        var newRun = RunState()
+        newRun.difficulty = difficulty
+        run = newRun
         undoStack = []
-        game = KlondikeGame()
+        game = KlondikeGame.empty(columns: difficulty.columnCount, decks: difficulty.deckCount, drawCount: drawCountForStage)
         stageScore = 0
         breakdown = [:]
         screen = .stageIntro
+        prefetchDeal(for: currentDealConfig)
         save()
     }
 
     func continueJourney() {
         guard run != nil else { return }
-        if resumeScreen == .playing && game.cards(in: .stock).isEmpty && game.tableau.allSatisfy(\.isEmpty) {
+        let hasDealtCards = !game.stock.isEmpty || !game.waste.isEmpty
+            || game.tableau.contains { !$0.isEmpty } || game.foundations.contains { !$0.isEmpty }
+        if resumeScreen == .playing && !hasDealtCards {
             screen = .stageIntro
         } else {
             screen = resumeScreen == .menu ? .stageIntro : resumeScreen
         }
+        if screen == .stageIntro || screen == .stageFailed { prefetchDeal(for: currentDealConfig) }
     }
 
     func returnToMenu() {
         clearMessages()
-        if screen != .menu { resumeScreen = screen }
+        if screen != .menu && screen != .chooseDifficulty { resumeScreen = screen }
         screen = .menu
         save()
     }
 
-    /// Deals fresh cards for the current round (also used for "Try Again").
+    /// Deals fresh, guaranteed-winnable cards for the current round (also used for "Try Again").
     func dealStage() {
-        guard let run else { return }
+        guard run != nil, !isDealing else { return }
         clearMessages()
-        game = KlondikeGame.deal(drawCount: drawCountForStage)
+        let config = currentDealConfig
+        // Show the empty table in the right shape while the deal is prepared.
+        game = KlondikeGame.empty(columns: config.difficulty.columnCount, decks: config.difficulty.deckCount,
+                                  drawCount: config.drawCount)
         stageScore = 0
         breakdown = [:]
-        if run.charms.contains(.headStart) {
-            award([.charms: Scoring.headStartPoints], announce: false)
-        }
         undoStack = []
         recentlyMoved = []
         isRoundEnding = false
-        isStuck = game.findHint() == nil
-        pendingDealAnimation = true
-        dealToken += 1
+        isStuck = false
+        isDealing = true
         screen = .playing
         sound.play(.shuffle)
+
+        dealTask = Task { [weak self] in
+            guard let self else { return }
+            let newGame = await self.takeDeal(for: config)
+            guard !Task.isCancelled else { return }
+            self.applyDeal(newGame, config: config)
+        }
+    }
+
+    private func applyDeal(_ newGame: KlondikeGame, config: DealConfig) {
+        game = newGame
+        if run?.charms.contains(.headStart) == true {
+            award([.charms: Scoring.headStartPoints], announce: false)
+        }
+        isStuck = game.findHint() == nil
+        isDealing = false
+        pendingDealAnimation = true
+        dealToken += 1
         save()
+        // Get the next deal ready for a retry or the next round.
+        prefetchDeal(for: config)
+    }
+
+    private func takeDeal(for config: DealConfig) async -> KlondikeGame {
+        if let prefetched = prefetchedDeal, prefetched.config == config {
+            prefetchedDeal = nil
+            return await prefetched.task.value
+        }
+        return await Task.detached(priority: .userInitiated) {
+            DealGenerator.makeWinnableDeal(config)
+        }.value
+    }
+
+    private func prefetchDeal(for config: DealConfig) {
+        if let prefetched = prefetchedDeal {
+            if prefetched.config == config { return }
+            prefetched.task.cancel()
+        }
+        let task = Task.detached(priority: .utility) {
+            DealGenerator.makeWinnableDeal(config)
+        }
+        prefetchedDeal = (config, task)
     }
 
     /// Ends the round: success if the target is reached, otherwise a gentle retry screen.
@@ -176,7 +256,10 @@ final class GameController {
         if stageScore >= run.target {
             run.totalScore += stageScore
             run.roundsCleared += 1
-            bestScore = max(bestScore, run.totalScore)
+            // Clearing the whole board earns a second charm.
+            run.boardWasCleared = game.isWon
+            run.charmPicksRemaining = game.isWon ? RunState.charmPicksForClearedBoard : 1
+            bestScores[run.difficulty] = max(bestScores[run.difficulty] ?? 0, run.totalScore)
             self.run = run
             screen = .stageComplete
             sound.play(.success)
@@ -198,16 +281,58 @@ final class GameController {
         }
     }
 
+    /// Adds a charm. Requires a free slot — remove a charm first when all 9 are taken.
     func chooseCharm(_ charm: Charm) {
-        guard var run else { return }
+        guard var run, run.charms.count < RunState.maxCharms else { return }
         if !run.charms.contains(charm) { run.charms.append(charm) }
         self.run = run
         sound.play(.foundation)
+        finishCharmPick()
+    }
+
+    /// Deletes a charm from the journey, freeing its slot.
+    func removeCharm(_ charm: Charm) {
+        guard var run, run.charms.contains(charm) else { return }
+        run.charms.removeAll { $0 == charm }
+        self.run = run
+        sound.play(.place)
+        save()
+    }
+
+    /// Puts back a charm that was just removed, if there is still room.
+    func restoreCharm(_ charm: Charm) {
+        guard var run, !run.charms.contains(charm), run.charms.count < RunState.maxCharms else { return }
+        run.charms.append(charm)
+        self.run = run
+        sound.play(.foundation)
+        save()
+    }
+
+    /// Passes on the current charm choice.
+    func skipCharm() {
+        finishCharmPick()
+    }
+
+    /// Offers the next charm choice if one was earned, otherwise moves on to the next round.
+    private func finishCharmPick() {
+        guard var run else { return }
+        run.charmPicksRemaining -= 1
+        if run.charmPicksRemaining > 0 {
+            run.offeredCharms = run.makeCharmOffer()
+            self.run = run
+            if !run.offeredCharms.isEmpty {
+                save()
+                return
+            }
+        }
+        run.charmPicksRemaining = 0
+        self.run = run
         advanceToNextStage()
     }
 
     func continueEndless() {
         screen = .stageIntro
+        prefetchDeal(for: currentDealConfig)
         save()
     }
 
@@ -227,6 +352,7 @@ final class GameController {
         if completedJourney { run.hasCompletedJourney = true }
         self.run = run
         screen = completedJourney ? .journeyComplete : .stageIntro
+        if !completedJourney { prefetchDeal(for: currentDealConfig) }
         save()
     }
 
@@ -253,13 +379,13 @@ final class GameController {
             playRejectSound()
             return false
         }
-        let movedIDs = Set(game.cards(in: source)[index...].map(\.id))
+        let moved = game.cards(in: source)[index...].map(\.id)
         pushUndo()
         withAnimation(Self.moveAnimation) {
             game = next
-            recentlyMoved = movedIDs
+            recentlyMoved = Set(moved)
         }
-        handle(events)
+        handle(events, anchorCardID: moved.first)
         return true
     }
 
@@ -323,6 +449,8 @@ final class GameController {
                 try? await Task.sleep(for: .milliseconds(170))
                 var next = self.game
                 let events: MoveEvents?
+                let anchor = self.game.cards(in: step.from).indices.contains(step.index)
+                    ? self.game.cards(in: step.from)[step.index].id : nil
                 if let destination = step.to {
                     events = next.move(from: step.from, at: step.index, to: destination)
                     drawsWithoutProgress = 0
@@ -335,7 +463,7 @@ final class GameController {
                     self.game = next
                     self.recentlyMoved = []
                 }
-                self.handle(events)
+                self.handle(events, anchorCardID: anchor)
             }
             self.isAutoCompleting = false
         }
@@ -346,9 +474,11 @@ final class GameController {
 
     // MARK: - Internals
 
-    private func handle(_ events: MoveEvents) {
+    private func handle(_ events: MoveEvents, anchorCardID: Int? = nil) {
         guard let run else { return }
-        award(Scoring.points(for: events, charms: run.charms, condition: run.condition))
+        award(Scoring.points(for: events, charms: run.charms, condition: run.condition),
+              anchorCardID: anchorCardID,
+              charmBonuses: Scoring.charmBonuses(for: events, charms: run.charms))
 
         if events.reachedFoundation {
             sound.play(.foundation)
@@ -378,9 +508,11 @@ final class GameController {
         guard let run, !isRoundEnding else { return }
         isRoundEnding = true
         isStuck = false
-        award(Scoring.boardClearAward(moveCount: game.moveCount, charms: run.charms, condition: run.condition))
+        award(Scoring.boardClearAward(moveCount: game.moveCount, charms: run.charms, condition: run.condition),
+              charmBonuses: Scoring.boardClearCharmBonuses(charms: run.charms))
         Task { [weak self] in
-            try? await Task.sleep(for: .seconds(1))
+            // Let the bonus count up on screen before the celebration.
+            try? await Task.sleep(for: .seconds(1.6))
             // Wait for auto-complete to wind down before showing the celebration.
             while self?.isAutoCompleting == true {
                 try? await Task.sleep(for: .milliseconds(100))
@@ -390,22 +522,42 @@ final class GameController {
         }
     }
 
-    private func award(_ points: [ScoreCategory: Int], announce: Bool = true) {
+    /// How long the score counter takes to count up by `amount`:
+    /// one tenth of a second per point, but never longer than one second.
+    static func countUpDuration(for amount: Int) -> Double {
+        min(1.0, Double(max(amount, 1)) * 0.1)
+    }
+
+    private func award(_ points: [ScoreCategory: Int], announce: Bool = true, anchorCardID: Int? = nil,
+                       charmBonuses: [CharmBonus] = []) {
         let wasReached = targetReached
         var total = 0
         for (category, value) in points where value != 0 {
             breakdown[category, default: 0] += value
             total += value
         }
-        withAnimation(.spring(duration: 0.4)) {
-            stageScore = max(0, stageScore + total)
-        }
+        stageScore = max(0, stageScore + total)
         if total > 0 && announce {
-            lastGain = total
-            gainToken += 1
+            showScorePop(total, at: anchorCardID, bonuses: charmBonuses)
+            for bonus in charmBonuses {
+                charmFlashAmounts[bonus.charm] = bonus.amount
+                charmFlashes[bonus.charm, default: 0] += 1
+            }
         }
         if !wasReached && targetReached && screen == .playing && !game.isWon {
-            showNotice("Target reached! Tap “Finish Round”, or keep playing for more points.")
+            showNotice(String(localized: "Target reached! Finish now for 1 charm — or clear the whole board to choose 2 charms."))
+        }
+    }
+
+    private func showScorePop(_ amount: Int, at cardID: Int?, bonuses: [CharmBonus]) {
+        nextPopID += 1
+        let pop = ScorePop(id: nextPopID, amount: amount, cardID: cardID, bonuses: bonuses)
+        scorePops.append(pop)
+        // Stays while the counter counts up, then fades (the view handles the fade).
+        let lifetime = Self.countUpDuration(for: amount) + 0.5
+        Task { [weak self] in
+            try? await Task.sleep(for: .seconds(lifetime))
+            self?.scorePops.removeAll { $0.id == pop.id }
         }
     }
 
@@ -456,7 +608,7 @@ final class GameController {
             stageScore: stageScore,
             breakdown: breakdown,
             resumeScreen: screen == .menu ? resumeScreen : screen,
-            bestScore: bestScore
+            bestScores: bestScores
         )
         if let encoded = try? JSONEncoder().encode(data) {
             UserDefaults.standard.set(encoded, forKey: Self.saveKey)
@@ -470,7 +622,7 @@ final class GameController {
         game = saved.game
         stageScore = saved.stageScore
         breakdown = saved.breakdown
-        bestScore = saved.bestScore
+        bestScores = saved.bestScores
         resumeScreen = saved.resumeScreen
         isStuck = !game.isWon && game.findHint() == nil
     }

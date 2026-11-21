@@ -8,7 +8,7 @@
 import AVFoundation
 
 final class SoundManager {
-    enum Effect: CaseIterable {
+    nonisolated enum Effect: CaseIterable {
         case flip, place, foundation, shuffle, invalid, success, hint, tick
     }
 
@@ -19,7 +19,8 @@ final class SoundManager {
     private var buffers: [Effect: AVAudioPCMBuffer] = [:]
     private var nextPlayer = 0
     private var isConfigured = false
-    private let sampleRate = 44_100.0
+    private var preparing = false
+    private var prepared: [Effect: [Float]]?
 
     func play(_ effect: Effect) {
         guard isEnabled else { return }
@@ -38,26 +39,50 @@ final class SoundManager {
 
     // MARK: - Setup
 
-    private func configureIfNeeded() {
-        guard !isConfigured else { return }
-        isConfigured = true
+    /// Builds the sounds and starts the audio engine in the background, so the first card
+    /// draw doesn't have to wait for it. Safe to call more than once.
+    func prepare() {
+        guard !isConfigured, !preparing else { return }
+        preparing = true
+        Task { [weak self] in
+            let samples = await Task.detached(priority: .userInitiated) { () -> [Effect: [Float]] in
+                Self.activateSession()
+                return SoundSynth.renderAll()
+            }.value
+            self?.prepared = samples
+            self?.configureIfNeeded()
+        }
+    }
 
+    nonisolated private static func activateSession() {
         #if os(iOS) || os(tvOS) || os(visionOS)
         // Ambient: mixes with other audio and respects the silent switch.
         try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
         try? AVAudioSession.sharedInstance().setActive(true)
         #endif
+    }
 
-        guard let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1) else { return }
+    private func configureIfNeeded() {
+        guard !isConfigured else { return }
+        isConfigured = true
+
+        // Normally prepared in the background already; fall back to doing it here if a sound is needed first.
+        if prepared == nil {
+            Self.activateSession()
+            prepared = SoundSynth.renderAll()
+        }
+
+        guard let format = AVAudioFormat(standardFormatWithSampleRate: SoundSynth.sampleRate, channels: 1) else { return }
         for _ in 0..<6 {
             let player = AVAudioPlayerNode()
             engine.attach(player)
             engine.connect(player, to: engine.mainMixerNode, format: format)
             players.append(player)
         }
-        for effect in Effect.allCases {
-            buffers[effect] = makeBuffer(samples: synthesize(effect), format: format)
+        for (effect, samples) in prepared ?? [:] {
+            buffers[effect] = makeBuffer(samples: samples, format: format)
         }
+        prepared = nil
         engine.mainMixerNode.outputVolume = 0.8
         try? engine.start()
     }
@@ -72,10 +97,17 @@ final class SoundManager {
         }
         return buffer
     }
+}
 
-    // MARK: - Synthesis
+/// Builds the sound samples. Pure computation, so it can run off the main thread.
+nonisolated enum SoundSynth {
+    static let sampleRate = 44_100.0
 
-    private func synthesize(_ effect: Effect) -> [Float] {
+    static func renderAll() -> [SoundManager.Effect: [Float]] {
+        Dictionary(uniqueKeysWithValues: SoundManager.Effect.allCases.map { ($0, synthesize($0)) })
+    }
+
+    static func synthesize(_ effect: SoundManager.Effect) -> [Float] {
         switch effect {
         case .flip:
             return noiseBurst(duration: 0.06, decay: 80, smoothing: 0.35, gain: 0.45)
@@ -112,7 +144,7 @@ final class SoundManager {
         }
     }
 
-    private func tone(_ frequency: Double, duration: Double, decay: Double, gain: Float) -> [Float] {
+    static func tone(_ frequency: Double, duration: Double, decay: Double, gain: Float) -> [Float] {
         let count = Int(duration * sampleRate)
         return (0..<count).map { i in
             let t = Double(i) / sampleRate
@@ -121,7 +153,7 @@ final class SoundManager {
         }
     }
 
-    private func chime(_ frequencies: [Double], duration: Double, gain: Float) -> [Float] {
+    static func chime(_ frequencies: [Double], duration: Double, gain: Float) -> [Float] {
         var samples: [Float] = []
         for frequency in frequencies {
             overlay(&samples, tone(frequency, duration: duration, decay: 7, gain: gain / Float(frequencies.count)), at: 0)
@@ -130,7 +162,7 @@ final class SoundManager {
     }
 
     /// Low-passed white noise with an exponential decay — sounds like a card snapping.
-    private func noiseBurst(duration: Double, decay: Double, smoothing: Float, gain: Float) -> [Float] {
+    static func noiseBurst(duration: Double, decay: Double, smoothing: Float, gain: Float) -> [Float] {
         let count = Int(duration * sampleRate)
         var last: Float = 0
         return (0..<count).map { i in
@@ -140,7 +172,7 @@ final class SoundManager {
         }
     }
 
-    private func overlay(_ base: inout [Float], _ other: [Float], at seconds: Double) {
+    static func overlay(_ base: inout [Float], _ other: [Float], at seconds: Double) {
         let offset = Int(seconds * sampleRate)
         if base.count < offset + other.count {
             base.append(contentsOf: [Float](repeating: 0, count: offset + other.count - base.count))

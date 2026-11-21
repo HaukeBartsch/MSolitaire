@@ -12,6 +12,7 @@ import Foundation
 nonisolated struct DealConfig: Hashable, Sendable {
     let difficulty: Difficulty
     let drawCount: Int
+    let stage: StageKind
 }
 
 nonisolated enum DealGenerator {
@@ -20,15 +21,26 @@ nonisolated enum DealGenerator {
         let clock = ContinuousClock()
         let start = clock.now
         let difficulty = config.difficulty
+        let band = difficulty.winRateBand(for: config.stage)
+        // Nearest-to-band deal proven winnable so far, used if no deal lands in the band in time.
+        var best: (game: KlondikeGame, distance: Double)?
+
         while clock.now - start < timeBudget && !Task.isCancelled {
             let game = KlondikeGame.deal(columns: difficulty.columnCount, decks: difficulty.deckCount,
                                          drawCount: config.drawCount)
+            // How many choice sequences win? Measured by random play (cheap), before the proof.
+            let rate = KlondikeSolver.winRate(game, playouts: difficulty.measurePlayouts)
+            let distance = rate < band.lowerBound ? band.lowerBound - rate
+                : (rate > band.upperBound ? rate - band.upperBound : 0)
+            guard distance == 0 || distance < (best?.distance ?? .infinity) else { continue }
+
             if let solution = KlondikeSolver.solve(game, nodeLimit: difficulty.solverNodeLimit),
                KlondikeSolver.replay(solution, on: game) {
-                return game
+                if distance == 0 { return game }
+                best = (game, distance)
             }
         }
-        return constructedDeal(config)
+        return best?.game ?? constructedDeal(config)
     }
 
     /// Fallback that is winnable by construction: every column is ordered so its top card is the
@@ -109,6 +121,34 @@ nonisolated struct KlondikeSolver {
             }
         }
         return game.isWon
+    }
+
+    // MARK: - Difficulty measure
+
+    /// Share of random-choice games that clear the board (0...1). At every step a random legal,
+    /// non-repeating move is chosen; a game with no such move left is a dead end.
+    /// High = many choice sequences win (easy). Near 0 = only a few exact sequences win (hard).
+    static func winRate(_ game: KlondikeGame, playouts: Int) -> Double {
+        KlondikeSolver(drawCount: game.drawCount).estimate(State(game), playouts: playouts)
+    }
+
+    private func estimate(_ start: State, playouts: Int) -> Double {
+        var wins = 0
+        for _ in 0..<playouts {
+            if Task.isCancelled { break }
+            var state = start
+            var seen: Set<Int> = [key(state)]
+            for _ in 0..<600 {
+                if state.isWon { wins += 1; break }
+                let next = moves(for: state)
+                    .map { apply($0, to: state) }
+                    .filter { !seen.contains(key($0)) }
+                guard let chosen = next.randomElement() else { break }
+                seen.insert(key(chosen))
+                state = chosen
+            }
+        }
+        return Double(wins) / Double(max(playouts, 1))
     }
 
     // MARK: - Search

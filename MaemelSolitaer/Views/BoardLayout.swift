@@ -15,33 +15,46 @@ struct BoardLayout {
     let topRowY: CGFloat
     let tableauY: CGFloat
     let wasteFan: CGFloat
+    /// Horizontal slot where the tableau starts (columns are centered under the top row).
+    let tableauStart: CGFloat
+    /// Horizontal slot of the first foundation (foundations are right-aligned).
+    let foundationStart: CGFloat
 
-    init(size: CGSize) {
+    /// - Parameters:
+    ///   - columns: number of tableau columns.
+    ///   - foundations: number of foundation piles (4 per deck).
+    init(size: CGSize, columns: Int = 7, foundations: Int = 4) {
         self.size = size
-        let spacing = max(8, min(size.width * 0.014, 18))
-        let widthLimited = (size.width - spacing * 6) / 7
+        // The table is as wide as the tableau or the top row (deck + waste + foundations), whichever is wider.
+        let units = CGFloat(max(columns, foundations + 2))
+        let spacing = max(6, min(size.width * 0.014, 18))
+        let widthLimited = (size.width - spacing * (units - 1)) / units
         let heightLimited = size.height / 3.6 / 1.4
         let width = max(36, min(widthLimited, heightLimited))
         self.spacing = spacing
         cardSize = CGSize(width: width, height: width * 1.4)
-        originX = (size.width - (width * 7 + spacing * 6)) / 2
+        originX = (size.width - (width * units + spacing * (units - 1))) / 2
         topRowY = 0
         tableauY = width * 1.4 + spacing * 1.6
-        wasteFan = width * 0.3
+        tableauStart = (units - CGFloat(columns)) / 2
+        foundationStart = units - CGFloat(foundations)
+        // Fan the waste into whatever room is left before the first foundation.
+        let room = (foundationStart - 2) * (width + spacing) + spacing * 0.5
+        wasteFan = min(width * 0.3, max(0, room / 2))
     }
 
-    func columnX(_ column: Int) -> CGFloat {
-        originX + CGFloat(column) * (cardSize.width + spacing)
+    private func unitX(_ unit: CGFloat) -> CGFloat {
+        originX + unit * (cardSize.width + spacing)
     }
 
     /// The frame of an empty pile.
     func slotFrame(for pile: PileID) -> CGRect {
         let origin: CGPoint
         switch pile {
-        case .stock: origin = CGPoint(x: columnX(0), y: topRowY)
-        case .waste: origin = CGPoint(x: columnX(1), y: topRowY)
-        case .foundation(let i): origin = CGPoint(x: columnX(3 + i), y: topRowY)
-        case .tableau(let i): origin = CGPoint(x: columnX(i), y: tableauY)
+        case .stock: origin = CGPoint(x: unitX(0), y: topRowY)
+        case .waste: origin = CGPoint(x: unitX(1), y: topRowY)
+        case .foundation(let i): origin = CGPoint(x: unitX(foundationStart + CGFloat(i)), y: topRowY)
+        case .tableau(let i): origin = CGPoint(x: unitX(tableauStart + CGFloat(i)), y: tableauY)
         }
         return CGRect(origin: origin, size: cardSize)
     }

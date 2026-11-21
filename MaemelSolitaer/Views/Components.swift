@@ -70,7 +70,7 @@ struct ConditionCard: View {
                 .frame(width: 64, height: 64)
                 .background(Circle().fill(tint.opacity(0.18)))
             VStack(alignment: .leading, spacing: 4) {
-                Text(condition.isChallenge ? "Boss Rule" : "This Round")
+                Text(condition.isChallenge ? String(localized: "Boss Rule") : String(localized: "This Round"))
                     .font(Theme.rounded(.headline, weight: .semibold))
                     .textCase(.uppercase)
                     .foregroundStyle(tint)
@@ -194,5 +194,52 @@ struct MessageBanner: View {
             }
         }
         .animation(.spring(duration: 0.35), value: text)
+    }
+}
+
+/// A charm icon that pulses and glows whenever the charm adds points.
+struct FlashingCharmIcon: View {
+    @Environment(GameController.self) private var controller
+    let charm: Charm
+    var size: CGFloat = 44
+    @State private var showsAmount = false
+
+    var body: some View {
+        let flashCount = controller.charmFlashes[charm] ?? 0
+        let tint = charm.tint
+        CharmIcon(charm: charm, size: size)
+            .keyframeAnimator(initialValue: 0.0, trigger: flashCount) { content, glow in
+                content
+                    .scaleEffect(1 + 0.3 * glow)
+                    .shadow(color: tint.opacity(glow), radius: 14)
+            } keyframes: { _ in
+                CubicKeyframe(1.0, duration: 0.12)
+                CubicKeyframe(0.0, duration: 0.4)
+            }
+            .overlay(alignment: .top) {
+                if showsAmount, let amount = controller.charmFlashAmounts[charm] {
+                    Text("+\(amount)")
+                        .font(.system(size: 24, weight: .black, design: .rounded))
+                        .monospacedDigit()
+                        .foregroundStyle(charm.tint)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(Color.black.opacity(0.85)))
+                        .overlay(Capsule().strokeBorder(charm.tint, lineWidth: 2))
+                        .fixedSize()
+                        .offset(y: -34)
+                        .transition(.scale(scale: 0.5).combined(with: .opacity))
+                        .accessibilityHidden(true)
+                }
+            }
+            .zIndex(showsAmount ? 10 : 0)
+            .task(id: flashCount) {
+                // Show the amount for about a second after each flash (not on first appearance).
+                guard flashCount > 0 else { return }
+                withAnimation(.spring(duration: 0.25, bounce: 0.4)) { showsAmount = true }
+                try? await Task.sleep(for: .seconds(1.1))
+                guard !Task.isCancelled else { return }
+                withAnimation(.easeOut(duration: 0.3)) { showsAmount = false }
+            }
     }
 }

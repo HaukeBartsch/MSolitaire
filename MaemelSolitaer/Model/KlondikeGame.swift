@@ -291,8 +291,8 @@ nonisolated struct KlondikeGame: Codable, Sendable {
         }
         if deckHasPlayableCard {
             let message = stock.isEmpty
-                ? "Tap the empty deck to turn the cards over again."
-                : "Tap the deck to turn over a new card."
+                ? String(localized: "Tap the empty deck to turn the cards over again.")
+                : String(localized: "Tap the deck to turn over a new card.")
             return GameHint(from: .stock, index: max(stock.count - 1, 0), to: nil, message: message)
         }
         return nil
@@ -335,20 +335,20 @@ nonisolated struct KlondikeGame: Codable, Sendable {
     }
 
     private func makeHint(from pile: PileID, index: Int, to destination: PileID) -> GameHint {
-        let card = cards(in: pile)[index]
-        let place: String
+        let card = cards(in: pile)[index].spokenName
+        // Whole sentences (not fragments) so each language can order the words naturally.
+        let message: String
         switch destination {
-        case .foundation:
-            place = "up to its foundation pile"
         case .tableau(let t):
             if let top = tableau[t].last {
-                place = "onto the \(top.spokenName)"
+                message = String(localized: "Move the \(card) onto the \(top.spokenName).",
+                                 comment: "Hint. First: card to move, second: card it goes onto, e.g. 7 of Hearts / 8 of Spades")
             } else {
-                place = "into the empty column"
+                message = String(localized: "Move the \(card) into the empty column.", comment: "Hint. The card to move, e.g. King of Clubs")
             }
-        case .stock, .waste:
-            place = ""
+        case .foundation, .stock, .waste:
+            message = String(localized: "Move the \(card) up to its foundation pile.", comment: "Hint. The card to move, e.g. Ace of Hearts")
         }
-        return GameHint(from: pile, index: index, to: destination, message: "Move the \(card.spokenName) \(place).")
+        return GameHint(from: pile, index: index, to: destination, message: message)
     }
 }
