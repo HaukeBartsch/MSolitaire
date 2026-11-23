@@ -82,6 +82,8 @@ struct CardFace: View {
                     .scaledToFit()
                     .frame(width: h * 0.17, height: h * 0.17)
                     .padding(.top, h * 0.03)
+                    // The symbol's built-in name for the heart is "Remove From Favorites".
+                    .accessibilityLabel(card.suit.name)
             }
             .foregroundStyle(ink)
             .padding(.horizontal, w * 0.07)
@@ -121,6 +123,7 @@ struct CardFace: View {
                 .scaledToFit()
                 .frame(width: w * (card.rank == 1 ? 0.62 : 0.52))
                 .foregroundStyle(ink)
+                .accessibilityLabel(card.suit.name)
                 .padding(.bottom, w * 0.08)
         }
     }

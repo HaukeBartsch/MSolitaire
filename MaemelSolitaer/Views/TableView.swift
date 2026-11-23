@@ -60,6 +60,9 @@ struct TableView: View {
     private func cardView(_ item: PlacedCard, layout: BoardLayout) -> some View {
         let dragged = isDragged(item)
         let offset = dragged ? (drag?.translation ?? .zero) : .zero
+        // Only cards the player can act on are announced (no hidden or buried cards, and only the
+        // top card of the deck). The others also get no label, so a face-down card's name never leaks.
+        let isAnnounced = item.isInteractive && dealtCount == Int.max
         return CardView(card: item.card, size: layout.cardSize, isHighlighted: isHinted(item))
             .modifier(ShakeEffect(animatableData: CGFloat(controller.shakes[item.card.id] ?? 0)))
             .scaleEffect(dragged ? 1.05 : 1)
@@ -71,10 +74,9 @@ struct TableView: View {
             .gesture(dragGesture(for: item, layout: layout))
             #endif
             .allowsHitTesting(item.isInteractive && controller.canInteract && dealtCount == Int.max)
-            .accessibilityLabel(accessibilityLabel(for: item))
-            .accessibilityAddTraits(.isButton)
-            // Only cards the player can act on are announced (no hidden or buried cards).
-            .accessibilityHidden(!item.isInteractive || dealtCount != Int.max)
+            .accessibilityLabel(isAnnounced ? accessibilityLabel(for: item) : "")
+            .accessibilityAddTraits(isAnnounced ? .isButton : [])
+            .accessibilityHidden(!isAnnounced)
     }
 
     private func placedCards(layout: BoardLayout) -> [PlacedCard] {
@@ -257,13 +259,16 @@ struct TableView: View {
     private func slots(layout: BoardLayout) -> some View {
         let game = controller.game
         let stockFrame = layout.slotFrame(for: .stock)
-        SlotView(kind: .stock(canRecycle: game.stock.isEmpty && !game.waste.isEmpty), size: layout.cardSize)
+        // Announced only once the deck is empty; until then the top deck card speaks for the deck.
+        let deckIsEmpty = game.stock.isEmpty
+        SlotView(kind: .stock(canRecycle: deckIsEmpty && !game.waste.isEmpty), size: layout.cardSize)
             .position(x: stockFrame.midX, y: stockFrame.midY)
             .onTapGesture { controller.drawFromStock() }
-            .accessibilityLabel(game.waste.isEmpty ? String(localized: "Empty deck")
+            .accessibilityLabel(!deckIsEmpty ? ""
+                                : game.waste.isEmpty ? String(localized: "Empty deck")
                                 : String(localized: "Empty deck, tap to turn the cards over again"))
-            .accessibilityAddTraits(.isButton)
-            .accessibilityHidden(!game.stock.isEmpty)
+            .accessibilityAddTraits(deckIsEmpty ? .isButton : [])
+            .accessibilityHidden(!deckIsEmpty)
 
         ForEach(game.foundations.indices, id: \.self) { f in
             let frame = layout.slotFrame(for: .foundation(f))
@@ -394,6 +399,8 @@ struct SlotView: View {
                 .scaledToFit()
                 .frame(width: size.width * 0.45)
                 .foregroundStyle(.white.opacity(0.3))
+                // The symbol's built-in name for the heart is "Remove From Favorites".
+                .accessibilityLabel(suit.name)
         case .tableau:
             Text("K")
                 .font(.system(size: size.width * 0.4, weight: .heavy, design: .rounded))

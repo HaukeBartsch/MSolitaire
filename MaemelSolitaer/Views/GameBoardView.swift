@@ -411,6 +411,8 @@ struct ControlButton: View {
             VStack(spacing: fixedHeight ? 2 : 4) {
                 Image(systemName: systemImage)
                     .font(.system(size: fixedHeight ? 22 : 28, weight: .semibold))
+                    // Symbol names can be misleading (the menu's three lines are called "Drag").
+                    .accessibilityLabel(title)
                     .accessibilityHidden(true)
                 Text(title)
                     .font(Theme.rounded(fixedHeight ? .headline : .title3, weight: .bold))
