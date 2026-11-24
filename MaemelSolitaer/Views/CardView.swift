@@ -23,7 +23,6 @@ struct CardView: View {
                     .shadow(color: Theme.gold.opacity(0.9), radius: 8)
             }
         }
-        .shadow(color: .black.opacity(0.28), radius: 1.5, x: 0, y: 1)
         // One element per card; callers provide the label. Hides the face of face-down cards.
         .accessibilityElement(children: .ignore)
     }
@@ -52,6 +51,13 @@ private struct FlippingCard: View, Animatable {
             }
         }
         .frame(width: size.width, height: size.height)
+        // Only the card's outline casts a shadow. (A `.shadow` on the whole card would also shadow
+        // every letter and symbol, which popped in as the flip settled.)
+        .background {
+            RoundedRectangle(cornerRadius: size.width * 0.09, style: .continuous)
+                .fill(Theme.cardFace)
+                .shadow(color: .black.opacity(0.28), radius: 1.5, x: 0, y: 1)
+        }
         .scaleEffect(x: max(0.02, abs(cos(angle * .pi / 180))), y: 1)
     }
 }
