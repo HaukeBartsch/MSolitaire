@@ -128,7 +128,7 @@ final class GameController {
     }
 
     var drawCountForStage: Int {
-        (run?.condition == .drawThree || settings.drawThree) ? 3 : 1
+        (run?.condition == .drawThree || settings.drawThree || difficulty.alwaysDrawsThree) ? 3 : 1
     }
 
     var difficulty: Difficulty { run?.difficulty ?? .easy }
@@ -346,7 +346,8 @@ final class GameController {
             run.stage = StageKind(rawValue: run.stage.rawValue + 1) ?? .boss
         }
         run.offeredCharms = []
-        run.condition = StageCondition.random(for: run.stage, ante: run.ante, playerDrawsThree: settings.drawThree)
+        run.condition = StageCondition.random(for: run.stage, ante: run.ante,
+                                              playerDrawsThree: settings.drawThree || run.difficulty.alwaysDrawsThree)
 
         let completedJourney = finishedBoss && run.ante > RunState.chapterCount && !run.hasCompletedJourney
         if completedJourney { run.hasCompletedJourney = true }

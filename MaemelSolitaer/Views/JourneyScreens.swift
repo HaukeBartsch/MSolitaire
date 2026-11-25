@@ -168,7 +168,7 @@ struct DifficultyPickerView: View {
                     Text("Choose Your Challenge")
                         .font(.system(size: 52, weight: .heavy, design: .rounded))
                         .multilineTextAlignment(.center)
-                    Text("Same classic rules at every level. Every deal can be won.")
+                    Text("Classic rules at every level. Every deal can be won.")
                         .font(Theme.rounded(.title2))
                         .opacity(0.85)
                         .multilineTextAlignment(.center)

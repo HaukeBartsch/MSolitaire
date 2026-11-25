@@ -15,7 +15,10 @@ struct SettingsView: View {
         let settings = controller.settings
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
-                SettingsSection(title: String(localized: "Cards to Turn Over"), detail: String(localized: "Takes effect with the next deal.")) {
+                SettingsSection(title: String(localized: "Cards to Turn Over"),
+                                detail: controller.difficulty.alwaysDrawsThree && controller.run != nil
+                                    ? String(localized: "Takes effect with the next deal. Hard journeys always turn over 3 cards.")
+                                    : String(localized: "Takes effect with the next deal.")) {
                     OptionButton(title: String(localized: "1 card at a time (relaxed)"), isSelected: !settings.drawThree) {
                         controller.updateSettings { $0.drawThree = false }
                     }
@@ -153,7 +156,7 @@ struct HowToPlayView: View {
         ("hand.tap.fill", String(localized: "Moving Cards"),
          String(localized: "Tap a card and it jumps to the best place. Or drag it — you don't need to be precise, it snaps into place.")),
         ("dial.medium.fill", String(localized: "Difficulty"),
-         String(localized: "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles. Every deal is checked in advance so it can always be won.")),
+         String(localized: "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles, and always turns over 3 deck cards at a time. Every deal is checked in advance so it can always be won.")),
         ("crown.fill", String(localized: "Chapters and Rounds"),
          String(localized: "Each chapter has three rounds: Warm-Up, Main and Boss. Reach the target score to clear a round. There is no timer — take all the time you like.")),
         ("sparkles", String(localized: "Charms"),

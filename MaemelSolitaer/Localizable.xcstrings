@@ -610,6 +610,16 @@
         }
       }
     },
+    "Classic rules at every level. Every deal can be won." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Auf jeder Stufe gelten die klassischen Regeln. Jede Kartenverteilung kann gewonnen werden."
+          }
+        }
+      }
+    },
     "Clear the board to get 2 charms" : {
       "localizations" : {
         "de" : {
@@ -954,7 +964,18 @@
         }
       }
     },
+    "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles, and always turns over 3 deck cards at a time. Every deal is checked in advance so it can always be won." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "„Leicht“ ist das klassische Spiel. „Mittel“ fügt eine achte Spalte hinzu. „Schwer“ wird mit zwei Kartenspielen, neun Spalten und acht Zielstapeln gespielt, und vom Nachziehstapel werden immer 3 Karten auf einmal aufgedeckt. Jede Kartenverteilung wird vorab geprüft, damit sie sich immer lösen lässt."
+          }
+        }
+      }
+    },
     "Easy is the classic game. Medium adds an eighth column. Hard uses two decks, nine columns and eight foundation piles. Every deal is checked in advance so it can always be won." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1711,6 +1732,7 @@
       }
     },
     "Same classic rules at every level. Every deal can be won." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1948,6 +1970,16 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Gilt ab der nächsten Kartenverteilung."
+          }
+        }
+      }
+    },
+    "Takes effect with the next deal. Hard journeys always turn over 3 cards." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gilt ab der nächsten Kartenverteilung. Auf der Stufe „Schwer“ werden immer 3 Karten aufgedeckt."
           }
         }
       }
@@ -2203,11 +2235,22 @@
       }
     },
     "Two decks, 9 columns and 8 foundation piles. A long game with higher targets and smaller cards." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Zwei Kartenspiele, 9 Spalten und 8 Zielstapel. Ein langes Spiel mit höheren Zielen und kleineren Karten."
+          }
+        }
+      }
+    },
+    "Two decks, 9 columns and 8 foundation piles. Deck cards are always turned over 3 at a time. A long game with higher targets and smaller cards." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zwei Kartenspiele, 9 Spalten und 8 Zielstapel. Vom Nachziehstapel werden immer 3 Karten auf einmal aufgedeckt. Ein langes Spiel mit höheren Zielen und kleineren Karten."
           }
         }
       }

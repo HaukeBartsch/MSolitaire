@@ -27,7 +27,7 @@ nonisolated enum Difficulty: String, Codable, CaseIterable, Identifiable, Coding
         switch self {
         case .easy: String(localized: "The classic game: one deck and 7 columns.")
         case .medium: String(localized: "One deck and 8 columns. More cards start face down and the deck is smaller.")
-        case .hard: String(localized: "Two decks, 9 columns and 8 foundation piles. A long game with higher targets and smaller cards.")
+        case .hard: String(localized: "Two decks, 9 columns and 8 foundation piles. Deck cards are always turned over 3 at a time. A long game with higher targets and smaller cards.")
         }
     }
 
@@ -57,6 +57,10 @@ nonisolated enum Difficulty: String, Codable, CaseIterable, Identifiable, Coding
     }
     var foundationCount: Int { 4 * deckCount }
 
+    /// Two decks give every card two places to go, which makes the game very forgiving.
+    /// Turning over 3 deck cards at a time on Hard makes up for it.
+    var alwaysDrawsThree: Bool { self == .hard }
+
     /// Targets scale with the number of points a table can give.
     var targetMultiplier: Double {
         switch self {
@@ -69,6 +73,8 @@ nonisolated enum Difficulty: String, Codable, CaseIterable, Identifiable, Coding
     /// Wanted share of random-choice games that clear the board, per round of a chapter.
     /// High = many sequences of choices win (forgiving). Low = only a few exact sequences win.
     /// Bands are calibrated per table size (measured on random deals) and narrow with every round.
+    /// Measured medians: Easy 18 %, Medium 2 %, Hard (two decks, draw 3) 23 % — Hard's bands sit
+    /// below Easy's so its deals are the less forgiving ones.
     func winRateBand(for stage: StageKind) -> ClosedRange<Double> {
         switch (self, stage) {
         case (.easy, .small): 0.20...1.0
@@ -77,9 +83,9 @@ nonisolated enum Difficulty: String, Codable, CaseIterable, Identifiable, Coding
         case (.medium, .small): 0.03...1.0
         case (.medium, .big): 0.005...0.03
         case (.medium, .boss): 0.0...0.005
-        case (.hard, .small): 0.85...1.0
-        case (.hard, .big): 0.65...0.85
-        case (.hard, .boss): 0.0...0.65
+        case (.hard, .small): 0.15...0.35
+        case (.hard, .big): 0.05...0.15
+        case (.hard, .boss): 0.0...0.08
         }
     }
 
